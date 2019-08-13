@@ -10,9 +10,11 @@ function Calculator(){
     this._clearBtn = document.getElementById('clearBtn');
     this._backspaceBtn = document.getElementById('backspace')
     this._plus = document.getElementById('plus');
+    this._resBtn = document.getElementById('resBtn');
     //................Properties.................
     this._firstNum = '';
     this._secNum = '';
+    this._operation = '';
    
     //Hide-show additional operators
 
@@ -72,20 +74,31 @@ function Calculator(){
 
     //Make operations
 
-    this._makeOperation = function () {
+    this._makeOperation = function (op) {
+        
+
         if (this._firstNum == '') {
+            this._operation = op;
             this._firstNum = this._input.value;
             this._input.value = ''
         }
-        else {
-            this._secNum = this._input.value;
-            this._input.value = this._firstNum + this._secNum;
+       
+             
         }
-        
-
+          
+    this._result = function () {
+        if (this._operation == 'plus') {
+            if (!this._secNum){
+                this._secNum = this._input.value;
+                this._input.value = +this._firstNum + (+this._secNum);
+            }
+           
+        }
     }
-    this._plus.addEventListener('click', this._makeOperation.bind(this));
-
+    
+    
+    this._plus.addEventListener('click', this._makeOperation.bind(this,'plus'));
+    this._resBtn.addEventListener('click', this._result.bind(this));
 
 } 
 
