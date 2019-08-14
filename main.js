@@ -10,6 +10,7 @@ function Calculator(){
     this._clearBtn = document.getElementById('clearBtn');
     this._backspaceBtn = document.getElementById('backspace')
     this._plus = document.getElementById('plus');
+    this._minus = document.getElementById('minus');
     this._resBtn = document.getElementById('resBtn');
     //................Properties.................
     this._firstNum = '';
@@ -61,6 +62,9 @@ function Calculator(){
 
     this._clearInput = function(){
         this._input.value = '';
+        this._firstNum = '';
+        this._secNum = '';
+        this._result = '';
     };
     this._clearBtn.addEventListener('click', this._clearInput.bind(this));
 
@@ -75,30 +79,49 @@ function Calculator(){
     //Make operations
 
     this._makeOperation = function (op) {
-        
 
-        if (this._firstNum == '') {
-            this._operation = op;
-            this._firstNum = this._input.value;
-            this._input.value = ''
-        }
-       
-             
-        }
+        this._operation = op;
+        this._firstNum = this._input.value;
+        this._input.value = '';
+        this._result = '';
+
+
+    }
           
-    this._result = function () {
-        if (this._operation == 'plus') {
-            if (!this._secNum){
-                this._secNum = this._input.value;
-                this._input.value = +this._firstNum + (+this._secNum);
-            }
-           
+    this._makeResult = function () {
+        switch (this._operation) {
+            case 'plus':
+
+                if (!this._result) {
+                    this._secNum = this._input.value;
+                    this._result = +this._firstNum + (+this._secNum);
+                    this._input.value = this._result;
+                }
+                else {
+                    this._result = this._result + (+this._secNum);
+                    this._input.value = this._result;
+                    
+                }
+
+                
+               
+
+                break;
+            case 'minus':
+                if ((!this._secNum) || (this._result)) {
+                    this._secNum = this._input.value;
+                    this._result = +this._firstNum - (+this._secNum);
+                    this._input.value = this._result;
+                }
+                break;
         }
+        
     }
     
     
     this._plus.addEventListener('click', this._makeOperation.bind(this,'plus'));
-    this._resBtn.addEventListener('click', this._result.bind(this));
+    this._minus.addEventListener('click', this._makeOperation.bind(this,'minus'));
+    this._resBtn.addEventListener('click', this._makeResult.bind(this));
 
 } 
 
