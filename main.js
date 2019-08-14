@@ -11,6 +11,8 @@ function Calculator(){
     this._backspaceBtn = document.getElementById('backspace')
     this._plus = document.getElementById('plus');
     this._minus = document.getElementById('minus');
+    this._multiply = document.getElementById('multiply');
+    this._divide = document.getElementById('divide');
     this._resBtn = document.getElementById('resBtn');
     //................Properties.................
     this._firstNum = '';
@@ -60,7 +62,7 @@ function Calculator(){
 
     //Clear input method
 
-    this._clearInput = function(){
+    this._clearInput = function () {
         this._input.value = '';
         this._firstNum = '';
         this._secNum = '';
@@ -71,27 +73,24 @@ function Calculator(){
 
     //Backing sym method
     this._backspaceSym = function () {
-        this._input.value = this._input.value.slice(0,this._input.value.length-1);
+        this._input.value = this._input.value.slice(0, this._input.value.length - 1);
     }
-    
-    this._backspaceBtn.addEventListener('click',this._backspaceSym.bind(this));
+
+    this._backspaceBtn.addEventListener('click', this._backspaceSym.bind(this));
 
     //Make operations
 
-    this._makeOperation = function (op) {
-
+    this._chooseOperation = function (op) {
         this._operation = op;
         this._firstNum = this._input.value;
         this._input.value = '';
         this._result = '';
-
-
     }
-          
+
+    
     this._makeResult = function () {
         switch (this._operation) {
             case 'plus':
-
                 if (!this._result) {
                     this._secNum = this._input.value;
                     this._result = +this._firstNum + (+this._secNum);
@@ -100,27 +99,54 @@ function Calculator(){
                 else {
                     this._result = this._result + (+this._secNum);
                     this._input.value = this._result;
-                    
+
                 }
-
-                
-               
-
                 break;
             case 'minus':
-                if ((!this._secNum) || (this._result)) {
+                if (!this._result) {
                     this._secNum = this._input.value;
                     this._result = +this._firstNum - (+this._secNum);
                     this._input.value = this._result;
                 }
+                else {
+                    this._result = this._result - (+this._secNum);
+                    this._input.value = this._result;
+
+                }
+                break;
+            case 'multiply':
+                if (!this._result) {
+                    this._secNum = this._input.value;
+                    this._result = +this._firstNum * (+this._secNum);
+                    this._input.value = this._result;
+                }
+                else {
+                    this._result = this._result * (+this._secNum);
+                    this._input.value = this._result;
+
+                }
+                break;
+            case 'divide':
+                if (!this._result) {
+                    this._secNum = this._input.value;
+                    this._result = +this._firstNum / (+this._secNum);
+                    this._input.value = this._result;
+                }
+                else {
+                    this._result = this._result / (+this._secNum);
+                    this._input.value = this._result;
+
+                }
                 break;
         }
-        
+
     }
     
     
-    this._plus.addEventListener('click', this._makeOperation.bind(this,'plus'));
-    this._minus.addEventListener('click', this._makeOperation.bind(this,'minus'));
+    this._plus.addEventListener('click', this._chooseOperation.bind(this,'plus'));
+    this._minus.addEventListener('click', this._chooseOperation.bind(this,'minus'));
+    this._multiply.addEventListener('click', this._chooseOperation.bind(this,'multiply'));
+    this._divide.addEventListener('click', this._chooseOperation.bind(this,'divide'));
     this._resBtn.addEventListener('click', this._makeResult.bind(this));
 
 } 
