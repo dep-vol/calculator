@@ -13,6 +13,7 @@ function Calculator(){
     this._minus = document.getElementById('minus');
     this._multiply = document.getElementById('multiply');
     this._divide = document.getElementById('divide');
+    this._sqr = document.getElementById('sqr');
     this._resBtn = document.getElementById('resBtn');
     //................Properties.................
     this._firstNum = '';
@@ -83,8 +84,17 @@ function Calculator(){
     this._chooseOperation = function (op) {
         this._operation = op;
         this._firstNum = this._input.value;
-        this._input.value = '';
-        this._result = '';
+        
+        //Ignore '=' if clicked 'one-operation' btn such as sin, cos....
+        
+        if (op == 'sqr') {
+            this._makeResult();
+        }
+        else {
+            this._input.value = '';
+            this._result = '';
+        }
+
     }
 
     
@@ -138,6 +148,9 @@ function Calculator(){
 
                 }
                 break;
+            case 'sqr':
+                this._input.value = Math.sqrt(this._firstNum);
+                break;
         }
 
     }
@@ -147,6 +160,7 @@ function Calculator(){
     this._minus.addEventListener('click', this._chooseOperation.bind(this,'minus'));
     this._multiply.addEventListener('click', this._chooseOperation.bind(this,'multiply'));
     this._divide.addEventListener('click', this._chooseOperation.bind(this,'divide'));
+    this._sqr.addEventListener('click', this._chooseOperation.bind(this,'sqr'));
     this._resBtn.addEventListener('click', this._makeResult.bind(this));
 
 } 
