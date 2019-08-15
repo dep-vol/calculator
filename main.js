@@ -14,6 +14,8 @@ function Calculator(){
     this._multiply = document.getElementById('multiply');
     this._divide = document.getElementById('divide');
     this._sqr = document.getElementById('sqr');
+    this._pow = document.getElementById('pow');
+    this._dot = document.getElementById('dot');
     this._resBtn = document.getElementById('resBtn');
     //................Properties.................
     this._firstNum = '';
@@ -79,6 +81,18 @@ function Calculator(){
 
     this._backspaceBtn.addEventListener('click', this._backspaceSym.bind(this));
 
+
+    //Dot paste
+
+    this._pasteDot = function () {
+        if(this._input.value.indexOf('.') == -1 ) {
+            this._input.value = this._input.value + '.';
+        }
+        
+    }
+
+    this._dot.addEventListener('click', this._pasteDot.bind(this));
+
     //Make operations
 
     this._chooseOperation = function (op) {
@@ -87,7 +101,7 @@ function Calculator(){
         
         //Ignore '=' if clicked 'one-operation' btn such as sin, cos....
         
-        if (op == 'sqr') {
+        if ((op == 'sqr')) {
             this._makeResult();
         }
         else {
@@ -151,6 +165,18 @@ function Calculator(){
             case 'sqr':
                 this._input.value = Math.sqrt(this._firstNum);
                 break;
+            case 'pow':
+                if (!this._result) {
+                    this._secNum = this._input.value;
+                    this._result = Math.pow(+this._firstNum,+this._secNum);
+                    this._input.value = this._result;
+                }
+                else {
+                    this._result = Math.pow(this._result,+this._secNum);
+                    this._input.value = this._result;
+
+                }
+                break;
         }
 
     }
@@ -161,6 +187,7 @@ function Calculator(){
     this._multiply.addEventListener('click', this._chooseOperation.bind(this,'multiply'));
     this._divide.addEventListener('click', this._chooseOperation.bind(this,'divide'));
     this._sqr.addEventListener('click', this._chooseOperation.bind(this,'sqr'));
+    this._pow.addEventListener('click', this._chooseOperation.bind(this,'pow'));
     this._resBtn.addEventListener('click', this._makeResult.bind(this));
 
 } 
