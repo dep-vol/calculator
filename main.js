@@ -16,6 +16,12 @@ function Calculator(){
     this._sqr = document.getElementById('sqr');
     this._pow = document.getElementById('pow');
     this._dot = document.getElementById('dot');
+    this._sin = document.getElementById('sin');
+    this._cos = document.getElementById('cos');
+    this._tan = document.getElementById('tan');
+    this._ctan = document.getElementById('ctan');
+    this._cube = document.getElementById('cube');
+    this._percent = document.getElementById('percent');
     this._resBtn = document.getElementById('resBtn');
     //................Properties.................
     this._firstNum = '';
@@ -98,10 +104,12 @@ function Calculator(){
     this._chooseOperation = function (op) {
         this._operation = op;
         this._firstNum = this._input.value;
-        
+
         //Ignore '=' if clicked 'one-operation' btn such as sin, cos....
-        
-        if ((op == 'sqr')) {
+
+        if ((op == 'sqr') || (op == 'sin') || (op == 'cos') || (op == 'tan') ||
+            (op == 'ctan') || (op == 'cube')) 
+        {
             this._makeResult();
         }
         else {
@@ -177,6 +185,33 @@ function Calculator(){
 
                 }
                 break;
+                case 'sin':
+                this._input.value = Math.sin(this._firstNum);
+                break;
+                case 'cos':
+                this._input.value = Math.cos(this._firstNum);
+                break;
+                case 'tan':
+                this._input.value = Math.tan(this._firstNum);
+                break;
+                case 'ctan':
+                this._input.value = 1/(Math.tan(this._firstNum));
+                break;
+                case 'cube':
+                this._input.value = Math.pow(this._firstNum,3);
+                break;
+                case 'percent':
+                if (!this._result) {
+                    this._secNum = this._input.value;
+                    this._result = ((+this._firstNum)/100)*+this._secNum;
+                    this._input.value = this._result;
+                }
+                else {
+                    this._result = ((+this._result)/100)/this._secNum;
+                    this._input.value = this._result;
+
+                }
+                break;
         }
 
     }
@@ -188,6 +223,12 @@ function Calculator(){
     this._divide.addEventListener('click', this._chooseOperation.bind(this,'divide'));
     this._sqr.addEventListener('click', this._chooseOperation.bind(this,'sqr'));
     this._pow.addEventListener('click', this._chooseOperation.bind(this,'pow'));
+    this._sin.addEventListener('click', this._chooseOperation.bind(this,'sin'));
+    this._cos.addEventListener('click', this._chooseOperation.bind(this,'cos'));
+    this._tan.addEventListener('click', this._chooseOperation.bind(this,'tan'));
+    this._ctan.addEventListener('click', this._chooseOperation.bind(this,'ctan'));
+    this._cube.addEventListener('click', this._chooseOperation.bind(this,'cube'));
+    this._percent.addEventListener('click', this._chooseOperation.bind(this,'percent'));
     this._resBtn.addEventListener('click', this._makeResult.bind(this));
 
 } 
